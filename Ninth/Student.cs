@@ -4,7 +4,7 @@ namespace Hierarchy
 {
     public class Student : Person
     {
-        protected int _course;
+        protected int _course;  // closed field of student course
 
         /// <summary>
         /// Gets or sets the course.
@@ -50,6 +50,15 @@ namespace Hierarchy
         public override string ToString()
         {
             return base.ToString() + " " + Course;
+        }
+    
+        /// <summary>
+        /// Generates this randomed instance.
+        /// </summary>
+        /// <returns>The generate.</returns>
+        public static Student Generate()
+        {
+            return new Student(Names[R.Next(Names.Length)], R.Next(18, 24), R.Next(1, 7));
         }
     }
 }
