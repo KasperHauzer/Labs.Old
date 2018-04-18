@@ -31,5 +31,36 @@ namespace Hierarchy
             Age = 21;
             Wage = 60_000;
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:Hierarchy.Employee"/> class.
+        /// </summary>
+        /// <param name="name">Name.</param>
+        /// <param name="age">Age.</param>
+        /// <param name="wage">Wage.</param>
+        public Employee(string name, int age, int wage)
+        {
+            Name = name;
+            Age = age;
+            Wage = wage;
+        }
+
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:Hierarchy.Employee"/>.
+        /// </summary>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:Hierarchy.Employee"/>.</returns>
+        public override string ToString()
+        {
+            return base.ToString() + " " + Wage;
+        }
+    
+        /// <summary>
+        /// Generate this random instance.
+        /// </summary>
+        /// <returns>A random instance.</returns>
+        public static Employee Generate()
+        {
+            return new Employee(Names[R.Next(Names.Length)], R.Next(18, 24), R.Next(0, 999_999_999));
+        }
     }
 }

@@ -55,7 +55,7 @@ namespace Hierarchy
         /// <summary>
         /// Generates this randomed instance.
         /// </summary>
-        /// <returns>The generate.</returns>
+        /// <returns>A random instance.</returns>
         public static Student Generate()
         {
             return new Student(Names[R.Next(Names.Length)], R.Next(18, 24), R.Next(1, 7));
