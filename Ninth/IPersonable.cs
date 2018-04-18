@@ -1,9 +1,7 @@
-﻿using System;
-
-namespace Ninth
+﻿namespace Ninth
 {
     public interface IPersonable<T>
     {
-        T getPerson();
+        T GetPerson();
     }
 }
