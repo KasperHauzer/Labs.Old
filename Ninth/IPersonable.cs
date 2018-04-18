@@ -2,7 +2,8 @@
 
 namespace Ninth
 {
-    public interface IPersonable
+    public interface IPersonable<T>
     {
+        T getPerson();
     }
 }
