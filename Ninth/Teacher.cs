@@ -110,7 +110,7 @@
         /// <returns>The random generate.</returns>
         new public static Teacher Generate()
         {
-            return new Teacher(Names[R.Next(Names.Length)], R.Next(1, 60), R.Next(999_999_999), GenerateTitle());
+            return new Teacher(Employee.Generate(), GenerateTitle());
         }
     }
 }

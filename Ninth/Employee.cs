@@ -51,7 +51,7 @@ namespace Hierarchy
         /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:Hierarchy.Employee"/>.</returns>
         public override string ToString()
         {
-            return base.ToString() + " " + Wage;
+            return base.ToString() + " W:" + Wage.ToString("C2");
         }
     
         /// <summary>
@@ -60,7 +60,7 @@ namespace Hierarchy
         /// <returns>A random instance.</returns>
         public static Employee Generate()
         {
-            return new Employee(Names[R.Next(Names.Length)], R.Next(18, 24), R.Next(0, 999_999_999));
+            return new Employee(Names[R.Next(Names.Length)], R.Next(18, 24), R.Next(0, 999_999));
         }
     }
 }
