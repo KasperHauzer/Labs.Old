@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Hierarchy
 {
@@ -63,6 +64,20 @@ namespace Hierarchy
         public override string ToString()
         {
             return Name + " " + Age;
+        }
+    }
+
+    public class SortByAge : IComparer<Person>
+    {
+        /// <summary>
+        /// Compare the specified x and y.
+        /// </summary>
+        /// <returns>The compare.</returns>
+        /// <param name="x">The x coordinate.</param>
+        /// <param name="y">The y coordinate.</param>
+        public int Compare(Person x, Person y)
+        {
+            return x.Age.CompareTo(y.Age);
         }
     }
 }

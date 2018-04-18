@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Hierarchy
 {
@@ -61,6 +62,20 @@ namespace Hierarchy
         public static Employee Generate()
         {
             return new Employee(Names[R.Next(Names.Length)], R.Next(18, 24), R.Next(0, 999_999));
+        }
+    }
+
+    public class SortByWage : IComparer<Employee>
+    {
+        /// <summary>
+        /// Compare the specified x and y.
+        /// </summary>
+        /// <returns>The compare.</returns>
+        /// <param name="x">The x coordinate.</param>
+        /// <param name="y">The y coordinate.</param>
+        public int Compare(Employee x, Employee y)
+        {
+            return x.Wage.CompareTo(y.Wage);
         }
     }
 }

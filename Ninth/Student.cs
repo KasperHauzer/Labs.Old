@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Hierarchy
 {
@@ -59,6 +60,20 @@ namespace Hierarchy
         public static Student Generate()
         {
             return new Student(Names[R.Next(Names.Length)], R.Next(18, 24), R.Next(1, 7));
+        }
+    }
+
+    public class SotrByCourse : IComparer<Student>
+    {
+        /// <summary>
+        /// Compare the specified x and y.
+        /// </summary>
+        /// <returns>The compare.</returns>
+        /// <param name="x">The x coordinate.</param>
+        /// <param name="y">The y coordinate.</param>
+        public int Compare(Student x, Student y)
+        {
+            return x.Course.CompareTo(y.Course);
         }
     }
 }

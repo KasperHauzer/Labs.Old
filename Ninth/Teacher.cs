@@ -1,4 +1,6 @@
-﻿namespace Hierarchy
+﻿using System.Collections.Generic;
+
+namespace Hierarchy
 {
     public class Teacher : Employee
     {
@@ -111,6 +113,20 @@
         new public static Teacher Generate()
         {
             return new Teacher(Employee.Generate(), GenerateTitle());
+        }
+    }
+
+    public class SortByTitle : IComparer<Teacher>
+    {
+        /// <summary>
+        /// Compare the specified x and y.
+        /// </summary>
+        /// <returns>The compare.</returns>
+        /// <param name="x">The x coordinate.</param>
+        /// <param name="y">The y coordinate.</param>
+        public int Compare(Teacher x, Teacher y)
+        {
+            return x.Title.CompareTo(y.Title);
         }
     }
 }
