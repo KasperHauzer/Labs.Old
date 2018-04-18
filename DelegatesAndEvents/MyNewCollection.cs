@@ -1,10 +1,11 @@
 ﻿using System;
+
 namespace DelegatesAndEvents
 {
-    public class MyNewCollection
+    public delegate void Method();
+
+    public class MyNewCollection : MyCollection
     {
-        public MyNewCollection()
-        {
-        }
+        
     }
 }

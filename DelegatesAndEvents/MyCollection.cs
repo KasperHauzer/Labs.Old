@@ -32,6 +32,16 @@ namespace DelegatesAndEvents
         }
 
         /// <summary>
+        /// Gets or sets the <see cref="T:DelegatesAndEvents.MyCollection"/> with the specified i.
+        /// </summary>
+        /// <param name="i">The index.</param>
+        public Person this[int i]
+        {
+            get => list[i];
+            set => list[i] = value;
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="T:DelegatesAndEvents.MyCollection"/> class.
         /// </summary>
         /// <param name="length">Length.</param>
