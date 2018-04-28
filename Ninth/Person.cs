@@ -9,7 +9,7 @@ namespace Hierarchy
         protected string _name;                     // closed field of person name
         protected int _age;                         // closed field of person age
         protected static string[] _names =                  // closed field of names for random generating of instance
-        { "Victor", "Max", "Jon", "Stive", "Brad", "Mathuev", "Tony", "Adam", "Mark", "Phill", };
+        { "Victor", "Max", "Jon", "Stive", "Brad", "Tass", "Tony", "Adam", "Mark", "Phill", };
 
         /// <summary>
         /// Gets or sets the name.
