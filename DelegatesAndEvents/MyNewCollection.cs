@@ -6,6 +6,10 @@ namespace DelegatesAndEvents
 
     public class MyNewCollection : MyCollection
     {
-        
+        public MyNewCollection(int length) : base(length)
+        {
+        }
+
+
     }
 }

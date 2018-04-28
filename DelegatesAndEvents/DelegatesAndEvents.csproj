@@ -10,4 +10,7 @@
       <HintPath>..\Ninth\obj\Debug\netcoreapp2.0\Hierarchy.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Collection\Collection.csproj" />
+  </ItemGroup>
 </Project>

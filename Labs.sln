@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hierarchy", "Ninth\Hierarch
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DelegatesAndEvents", "DelegatesAndEvents\DelegatesAndEvents.csproj", "{393A43CD-3B31-48AC-8F47-640D5D9E93D2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Collection", "Collection\Collection.csproj", "{AA798DCB-5E16-42B6-A54C-F69D8D9DF888}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,5 +21,9 @@ Global
 		{393A43CD-3B31-48AC-8F47-640D5D9E93D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{393A43CD-3B31-48AC-8F47-640D5D9E93D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{393A43CD-3B31-48AC-8F47-640D5D9E93D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA798DCB-5E16-42B6-A54C-F69D8D9DF888}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA798DCB-5E16-42B6-A54C-F69D8D9DF888}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA798DCB-5E16-42B6-A54C-F69D8D9DF888}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA798DCB-5E16-42B6-A54C-F69D8D9DF888}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
