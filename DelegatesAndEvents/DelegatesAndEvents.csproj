@@ -6,11 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="Hierarchy">
-      <HintPath>..\Ninth\obj\Debug\netcoreapp2.0\Hierarchy.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\Collection\Collection.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Collection\Collection.csproj" />
+    <Reference Include="Hierarchy">
+      <HintPath>..\Hierarchy\bin\Debug\netcoreapp2.0\Hierarchy.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>
