@@ -1,7 +1,6 @@
 ﻿using System;
 using Hierarchy;
 using Collection;
-using System.Collections;
 
 namespace DelegatesAndEvents
 {
@@ -85,7 +84,7 @@ namespace DelegatesAndEvents
         /// </summary>
         /// <returns>The sort.</returns>
         /// <param name="comparer">Comparer.</param>
-        new public void Sort(IComparer comparer)
+        new public void Sort(System.Collections.IComparer comparer)
         {
             Seq.Sort(comparer);
         }

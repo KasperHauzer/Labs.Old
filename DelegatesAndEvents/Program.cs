@@ -8,19 +8,32 @@ namespace DelegatesAndEvents
     {
         static void Main()
         {
-            void X(object sender, MyNewCollectionEventArgs e) {
-                Console.WriteLine(e.ChangeDescription);
+            Random R = new Random();
+            Journal journal = new Journal();
+            MyNewCollection seq = new MyNewCollection(20, "seq");
+            MyNewCollection lis = new MyNewCollection(20, "lis");
+            seq.Change += journal.MyNewCollection_Change;
+            lis.Change += journal.MyNewCollection_Change;
+
+            for (int i = 0; i < 20; i++)
+                switch (R.Next() % 3) {
+                case 0: seq.Add(Student.Generate());  lis.Add(Student.Generate());  break; 
+                case 1: seq.Add(Employee.Generate()); lis.Add(Employee.Generate()); break;
+                case 2: seq.Add(Teacher.Generate());  lis.Add(Teacher.Generate());  break;
             }
 
-            MyNewCollection seq = new MyNewCollection(20);
-            seq.Change += X;
+            seq.Insert(10, Student.Generate());
+            lis.Insert(10, Student.Generate());
+            seq.Insert(-1, Student.Generate());
+            lis.Insert(-1, Student.Generate());
+            seq.Remove(seq[10]);
+            lis.Remove(lis[10]);
+            lis.Remove(Student.Generate());
+            seq.Remove(Student.Generate());
+            seq.Clear();
+            lis.Clear();
 
-            seq.Add(Student.Generate());            // добавление элемента
-            seq.Insert(12, Student.Generate());     // вставка элемента
-            seq.Insert(100, Student.Generate());    // вставка элемента на недоступное место
-            seq.Remove(seq[0]);                     // удаление элемента
-            seq.Remove(Student.Generate());         // удаление несуществующего элемента
-            seq.Clear();                            // очистка коллекции
+            Console.WriteLine(journal);
         }
     }
 }

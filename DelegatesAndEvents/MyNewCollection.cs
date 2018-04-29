@@ -18,23 +18,27 @@ namespace DelegatesAndEvents
 
             set {
                 Seq[index] = value;
-                OnMyNewCollectionChange("Изменена ссылка на объект"); 
+                OnMyNewCollectionChange(Name, "Изменена ссылка на объект", value); 
             }
         }
+
+        public string Name { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:DelegatesAndEvents.MyNewCollection"/> class and fills it.
         /// </summary>
         /// <param name="length">Length.</param>
-        public MyNewCollection(int length) : base(length) { }
+        public MyNewCollection(int length, string name) : base(length) { Name = name; }
     
         /// <summary>
         /// Ons my new collection change.
         /// </summary>
-        /// <param name="change">Change.</param>
-        protected virtual void OnMyNewCollectionChange(string change)
+        /// <param name="collectionName">Collection name.</param>
+        /// <param name="changeDescription">Change description.</param>
+        /// <param name="changedItem">Changed item.</param>
+        protected virtual void OnMyNewCollectionChange(string collectionName, string changeDescription, Person changedItem)
         {
-            Change?.Invoke(this, new MyNewCollectionEventArgs(change));
+            Change?.Invoke(this, new MyNewCollectionEventArgs(collectionName, changeDescription, changedItem));
         }
     
 
@@ -46,7 +50,7 @@ namespace DelegatesAndEvents
         new public void Add(Person item)
         {
             Seq.Add(item);
-            OnMyNewCollectionChange("Добавлен новый элемент: " + item.ToString());
+            OnMyNewCollectionChange(Name, "Добавлен новый элемент: " + item.ToString(), item);
         }
     
         /// <summary>
@@ -59,9 +63,9 @@ namespace DelegatesAndEvents
             bool flag = Seq.Remove(item);
 
             if (flag)
-                OnMyNewCollectionChange("Удален элемент: " + item);
+                OnMyNewCollectionChange(Name, "Удален элемент: " + item, item);
             else
-                OnMyNewCollectionChange("Попытка удалить несуществующий элемент: " + item);
+                OnMyNewCollectionChange(Name, "Попытка удалить несуществующий элемент: " + item, item);
 
             return flag;
         }
@@ -77,9 +81,9 @@ namespace DelegatesAndEvents
             bool flag = Seq.Insert(index, item);
 
             if (flag)
-                OnMyNewCollectionChange("Добавлен новый элемент по индексу " + index + $": {item}");
+                OnMyNewCollectionChange(Name, "Добавлен новый элемент по индексу " + index + $": {item}", item);
             else 
-                OnMyNewCollectionChange("Неудачная попытка добавить элемент по индексу " + index + $": {item}");
+                OnMyNewCollectionChange(Name, "Неудачная попытка добавить элемент по индексу " + index + $": {item}", item);
 
             return flag;
         }
@@ -90,14 +94,23 @@ namespace DelegatesAndEvents
         new public void Clear()
         {
             Seq.Clear();
-            OnMyNewCollectionChange("Песледовательно была очищена");
+            OnMyNewCollectionChange(Name, "Песледовательно была очищена", new Student());
         }
     }
 
     public class MyNewCollectionEventArgs : EventArgs
     {
-        public string ChangeDescription { get; private set; } //is readonly
+        public string ChangeDescription { get; private set; }   //is readonly
+        public string CollectionName { get; private set; }      //is readonly
+        public Person ChangedItem { get; private set; }         //is readonly
 
-        public MyNewCollectionEventArgs(string changeDescription) { ChangeDescription = changeDescription; }
+        public MyNewCollectionEventArgs(string collectionName, string changeDescription, Person changedItem)
+        {
+            CollectionName = collectionName;
+            ChangeDescription = changeDescription;
+            ChangedItem = changedItem;
+        }
+
+        public override string ToString() => $"{CollectionName} - {ChangedItem} : {ChangeDescription}";
     }
 }
