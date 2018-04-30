@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Collection
 {
-    public class Sequence<T> : IEnumerable 
+    public class Sequence<T> : IEnumerable
     {
         internal T[] _array;                    // closed field of base array
         internal int _count;                    // closed field of items count in sequence
@@ -254,6 +255,34 @@ namespace Collection
         public void Reverse()
         {
             Array.Reverse(Source, 0, Count);
+        }
+
+        /// <summary>
+        /// Gets the list.
+        /// </summary>
+        /// <returns>The list.</returns>
+        public List<T> ToList()
+        {
+            List<T> list = new List<T>();
+
+            foreach (T obj in this)
+                list.Add(obj);
+
+            return list;
+        }
+    
+        /// <summary>
+        /// Gets the array.
+        /// </summary>
+        /// <returns>The array.</returns>
+        public T[] ToArray()
+        {
+            T[] array = new T[Count];
+
+            for (int i = 0; i < Count; i++)
+                array[i] = this[i];
+
+            return array;
         }
     }
 }
