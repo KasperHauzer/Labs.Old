@@ -18,6 +18,8 @@ namespace Hierarchy
             set {
                 if (value <= 0)
                     throw new ArgumentException("The course must be greater than 0");
+
+                _course = value;
             }
         }
 
