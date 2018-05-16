@@ -24,6 +24,12 @@ namespace Hierarchy
         }
 
         /// <summary>
+        /// Gets the base.
+        /// </summary>
+        /// <value>The base.</value>
+        public Person GetBase => new Person(Name, Age);
+
+        /// <summary>
         /// Initializes a new default instance of the <see cref="T:Hierarchy.Student"/> class.
         /// </summary>
         public Student()
@@ -59,7 +65,7 @@ namespace Hierarchy
         /// Generates this randomed instance.
         /// </summary>
         /// <returns>A random instance.</returns>
-        public static Student Generate()
+        new public static Student Generate()
         {
             return new Student(Names[R.Next(Names.Length)], R.Next(18, 24), R.Next(1, 7));
         }

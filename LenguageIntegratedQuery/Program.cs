@@ -8,7 +8,7 @@ namespace LenguageIntegratedQuery
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Sequence<Person> a = new Sequence<Person>();
             Sequence<Person> b = new Sequence<Person>();
@@ -21,6 +21,8 @@ namespace LenguageIntegratedQuery
                                          .Where(x => x is Student)
                                          .Where(x => (x as Student).Course == 1 && (x as Student).Age <= 18)
                                          .Select(x => x.Name);
+            a.StudentFilter();
+            b.StudentFilter();
 
 
             // #2 query: число ученных
@@ -46,8 +48,6 @@ namespace LenguageIntegratedQuery
             // #5 query: самая маленькая зарплата
             float minWage = a.ToArray().Where(x => x is Employee).Min(x => (x as Employee).Wage);
         }
-
-
     }
 
     static class SequenceExtansion
@@ -62,6 +62,43 @@ namespace LenguageIntegratedQuery
                 case 1: sequence.Add(Employee.Generate()); break;
                 case 2: sequence.Add(Employee.Generate()); break;
                 }
+        }
+
+        public static Sequence<string> StudentFilter(this Sequence<Person> sequence)
+        {
+            string[] students = sequence.ToArray()
+                                        .Where(x => x is Student)
+                                        .Where(x => (x as Student).Course == 1 && (x as Student).Age <= 18)
+                                        .Select(x => x.Name).ToArray();
+
+            Sequence<string> names = new Sequence<string>();
+
+            for (int i = 0; i < students.Length; i++)
+                names.Add(students[i]);
+
+            return names;
+        }
+    
+        public static Sequence<string> NamesSort(this Sequence<Person> sequence, int count)
+        {
+            string[] names = sequence.ToArray()
+                              .Where(x => x.Name.Contains('a') || x.Name.Contains('A'))
+                              .Select(x => x.Name)
+                              .Take(count)
+                              .OrderBy(x => x.Length)
+                              .ToArray();
+
+            Sequence<string> names1 = new Sequence<string>();
+
+            for (int i = 0; i < names.Length; i++)
+                names1.Add(names[i]);
+
+            return names1;
+        }
+    
+        public static Sequence<Person> Collobaration(this Sequence<Person> sequence, Sequence<Person> b)
+        {
+            
         }
     }
 }

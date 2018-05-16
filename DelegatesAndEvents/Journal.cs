@@ -5,7 +5,12 @@ namespace DelegatesAndEvents
 {
     public class Journal
     {
-        static Sequence<JournalEntry> list = new Sequence<JournalEntry>();
+        Sequence<JournalEntry> list = null;
+
+        public Journal()
+        {
+            list = new Sequence<JournalEntry>();
+        }
 
         public void MyNewCollection_Change(object sender, MyNewCollectionEventArgs e)
         {

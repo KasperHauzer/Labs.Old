@@ -24,9 +24,15 @@ namespace Hierarchy
         }
 
         /// <summary>
+        /// Gets the base.
+        /// </summary>
+        /// <value>The base.</value>
+        public Person GetBase => new Person(Name, Age);
+
+        /// <summary>
         /// Initializes a new default instance of the <see cref="T:Hierarchy.Employee"/> class.
         /// </summary>
-        public Employee()
+        public Employee() : base()
         {
             Name = "Name";
             Age = 21;
@@ -39,7 +45,7 @@ namespace Hierarchy
         /// <param name="name">Name.</param>
         /// <param name="age">Age.</param>
         /// <param name="wage">Wage.</param>
-        public Employee(string name, int age, int wage)
+        public Employee(string name, int age, int wage) : base(name, age)
         {
             Name = name;
             Age = age;
@@ -59,7 +65,7 @@ namespace Hierarchy
         /// Generate this random instance.
         /// </summary>
         /// <returns>A random instance.</returns>
-        public static Employee Generate()
+        new public static Employee Generate()
         {
             return new Employee(Names[R.Next(Names.Length)], R.Next(18, 24), R.Next(0, 999_999));
         }

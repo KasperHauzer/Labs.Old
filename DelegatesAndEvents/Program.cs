@@ -9,11 +9,15 @@ namespace DelegatesAndEvents
         static void Main()
         {
             Random R = new Random();
-            Journal journal = new Journal();
+            Journal journalA = new Journal();
+            Journal journalB = new Journal();
             MyNewCollection seq = new MyNewCollection(20, "seq");
             MyNewCollection lis = new MyNewCollection(20, "lis");
-            seq.Change += journal.MyNewCollection_Change;
-            lis.Change += journal.MyNewCollection_Change;
+            seq.CountChange += journalA.MyNewCollection_Change;
+            seq.ReferenceChange += journalA.MyNewCollection_Change;
+            seq.ReferenceChange += journalB.MyNewCollection_Change;
+            lis.ReferenceChange += journalB.MyNewCollection_Change;
+
 
             for (int i = 0; i < 20; i++)
                 switch (R.Next() % 3) {
@@ -30,10 +34,13 @@ namespace DelegatesAndEvents
             lis.Remove(lis[10]);
             lis.Remove(Student.Generate());
             seq.Remove(Student.Generate());
+            seq[10] = Student.Generate();
+            lis[10] = Student.Generate();
             seq.Clear();
             lis.Clear();
 
-            Console.WriteLine(journal);
+            Console.WriteLine(journalA);
+            Console.WriteLine("\n\n" + journalB);
         }
     }
 }

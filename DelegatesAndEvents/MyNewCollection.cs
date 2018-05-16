@@ -6,7 +6,8 @@ namespace DelegatesAndEvents
     public class MyNewCollection : MyCollection
     {
         public delegate void MynewCollectionHandler(object sender, MyNewCollectionEventArgs e);
-        public event MynewCollectionHandler Change;
+        public event MynewCollectionHandler CountChange;
+        public event MynewCollectionHandler ReferenceChange;
 
         /// <summary>
         /// Gets or sets the <see cref="T:DelegatesAndEvents.MyNewCollection"/> at the specified index.
@@ -17,8 +18,8 @@ namespace DelegatesAndEvents
             get => Seq[index];
 
             set {
+                OnMyNewCollectionReferenceChange(Name, Seq[index]); 
                 Seq[index] = value;
-                OnMyNewCollectionChange(Name, "Изменена ссылка на объект", value); 
             }
         }
 
@@ -36,11 +37,21 @@ namespace DelegatesAndEvents
         /// <param name="collectionName">Collection name.</param>
         /// <param name="changeDescription">Change description.</param>
         /// <param name="changedItem">Changed item.</param>
-        protected virtual void OnMyNewCollectionChange(string collectionName, string changeDescription, Person changedItem)
+        protected virtual void OnMyNewCollectionCountChange(string collectionName, string changeDescription, Person changedItem)
         {
-            Change?.Invoke(this, new MyNewCollectionEventArgs(collectionName, changeDescription, changedItem));
+            CountChange?.Invoke(this, new MyNewCollectionEventArgs(collectionName, changeDescription, changedItem));
         }
     
+        /// <summary>
+        /// Ons my new collection reference change.
+        /// </summary>
+        /// <param name="collectionName">Collection name.</param>
+        /// <param name="changedItem">Changed item.</param>
+        protected virtual void OnMyNewCollectionReferenceChange(string collectionName, Person changedItem)
+        {
+            ReferenceChange?.Invoke(this, new MyNewCollectionEventArgs(collectionName, changedItem));
+
+        }
 
         /// <summary>
         /// Adds the specified item.
@@ -50,7 +61,7 @@ namespace DelegatesAndEvents
         new public void Add(Person item)
         {
             Seq.Add(item);
-            OnMyNewCollectionChange(Name, "Добавлен новый элемент: " + item.ToString(), item);
+            OnMyNewCollectionCountChange(Name, "Добавлен новый элемент: " + item.ToString(), item);
         }
     
         /// <summary>
@@ -63,9 +74,9 @@ namespace DelegatesAndEvents
             bool flag = Seq.Remove(item);
 
             if (flag)
-                OnMyNewCollectionChange(Name, "Удален элемент: " + item, item);
+                OnMyNewCollectionCountChange(Name, "Удален элемент: " + item, item);
             else
-                OnMyNewCollectionChange(Name, "Попытка удалить несуществующий элемент: " + item, item);
+                OnMyNewCollectionCountChange(Name, "Попытка удалить несуществующий элемент: " + item, item);
 
             return flag;
         }
@@ -81,9 +92,9 @@ namespace DelegatesAndEvents
             bool flag = Seq.Insert(index, item);
 
             if (flag)
-                OnMyNewCollectionChange(Name, "Добавлен новый элемент по индексу " + index + $": {item}", item);
+                OnMyNewCollectionCountChange(Name, "Добавлен новый элемент по индексу " + index + $": {item}", item);
             else 
-                OnMyNewCollectionChange(Name, "Неудачная попытка добавить элемент по индексу " + index + $": {item}", item);
+                OnMyNewCollectionCountChange(Name, "Неудачная попытка добавить элемент по индексу " + index + $": {item}", item);
 
             return flag;
         }
@@ -94,7 +105,7 @@ namespace DelegatesAndEvents
         new public void Clear()
         {
             Seq.Clear();
-            OnMyNewCollectionChange(Name, "Песледовательно была очищена", new Student());
+            OnMyNewCollectionCountChange(Name, "Песледовательноcть была очищена", new Student());
         }
     }
 
@@ -108,6 +119,13 @@ namespace DelegatesAndEvents
         {
             CollectionName = collectionName;
             ChangeDescription = changeDescription;
+            ChangedItem = changedItem;
+        }
+
+        public MyNewCollectionEventArgs(string colelctionName, Person changedItem)
+        {
+            CollectionName = colelctionName;
+            ChangeDescription = "Изменена ссылка на объект: " + changedItem.ToString();
             ChangedItem = changedItem;
         }
 
