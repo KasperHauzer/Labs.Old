@@ -30,6 +30,8 @@ namespace LenguageIntegratedQuery
                                   where x is Teacher
                                   where (x as Teacher).Title == Teacher.Rank.Scientist
                                   select x).Count();
+            a.ScientistCount();
+            b.ScientistCount();
 
 
             // #3 query: средний возраст работников
@@ -47,6 +49,8 @@ namespace LenguageIntegratedQuery
 
             // #5 query: самая маленькая зарплата
             float minWage = a.ToArray().Where(x => x is Employee).Min(x => (x as Employee).Wage);
+            a.MinSalary();
+            b.MinSalary();
 
 
             // #6 объединение двух последовательностей
@@ -65,7 +69,6 @@ namespace LenguageIntegratedQuery
             //b.Add(person1);
             //b.Add(person2);
             //b.Add(person3);
-
             //c = a.ToArray().Intersect(b.ToArray()).ToList();
         }
     }

@@ -58,20 +58,60 @@ namespace StCollectionsAndExceptions
         }
     
         /// <summary>
+        /// Pruns the specified index.
+        /// </summary>
+        /// <returns>The prun.</returns>
+        /// <param name="index">Index.</param>
+        public void Prun (int index)
+        {
+            if (index < 0 || index > baseArray.Length) throw new IndexOutOfRangeException();
+        }
+
+        /// <summary>
         /// Pruns a lists and a dectionaries.
         /// </summary>
         /// <returns>The pruned lists and dectionaries.</returns>
         /// <param name="lastIndex">Last index.</param>
-        public void Prun(int lastIndex)
+        void Redefinition(Student[] newBaseArray)
         {
-            if (baseArray == null) throw new BaseArrayIsEmptyException();
-            if (lastIndex < 0 || lastIndex > baseArray.Length) throw new IndexOutOfRangeException();
+            if (newBaseArray == null && newBaseArray.Length == 0) throw new BaseArrayIsEmptyException();
 
-            for (int i = 0; i < baseArray.Length; i++) {
-                keys.Add(baseArray[i].GetBase);
-                stringKeys.Add(baseArray[i].GetBase.ToString());
-                dictionary.Add(baseArray[i].GetBase, baseArray[i]);
-                stringDictionary.Add(baseArray[i].GetBase.ToString(), baseArray[i]);
+            baseArray = newBaseArray;
+
+            keys = baseArray.Select(x => x.GetBase).ToList();
+            stringKeys = baseArray.Select(x => x.GetBase.ToString()).ToList();
+            dictionary = baseArray.ToDictionary(x => x.GetBase);
+            stringDictionary = baseArray.ToDictionary(x => x.GetBase.ToString());
+        }
+    
+        /// <summary>
+        /// Adds the specified item.
+        /// </summary>
+        /// <returns>The add.</returns>
+        /// <param name="item">Item.</param>
+        public void Add(Student item)
+        {
+            Student[] array = new Student[baseArray.Length + 1];
+            Array.Copy(baseArray, array, baseArray.Length);
+            array[array.Length - 1] = item;
+            Redefinition(array);
+        }
+    
+        /// <summary>
+        /// Removes an item at index.
+        /// </summary>
+        /// <param name="index">Index.</param>
+        public void RemoveAt(int index)
+        {
+            if (index >= 0 && index < baseArray.Length) 
+            {
+                Student[] array = new Student[baseArray.Length - 1];
+                Array.Copy(baseArray, array, index);
+
+                for (int i = index, k = index + 1; i < array.Length && k < baseArray.Length; i++, k++)
+                    array[i] = baseArray[k];
+
+                Redefinition(array);
             }
         }
     }
