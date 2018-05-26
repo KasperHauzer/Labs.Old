@@ -1,193 +1,175 @@
 ﻿using System;
 using System.Linq;
 using Hierarchy;
-using Collection;
 using System.Collections.Generic;
 
 namespace LenguageIntegratedQuery
 {
     class Program
     {
+        public static Random random = new Random();
+        public const Int32 size = 10;
+        public const Int32 otherSize = 3;
+
         static void Main()
         {
-            Sequence<Person> a = new Sequence<Person>();
-            Sequence<Person> b = new Sequence<Person>();
-            a.Filling(200);
-            b.Filling(200);
+            List<Person> people = new List<Person>();
+            people.ToFill(size, random);
+            Print(people);
 
+            List<Student> students = people.GetAllStudents();
+            Print(students);
 
-            // #1 query: имена всех первокурсников не старше 18
-            IEnumerable<string> enum1 = a.ToArray()
-                                         .Where(x => x is Student)
-                                         .Where(x => (x as Student).Course == 1 && (x as Student).Age <= 18)
-                                         .Select(x => x.Name);
-            a.StudentFilter();
-            b.StudentFilter();
+            int goodWage = people.GetGoodWage();
+            Console.WriteLine(goodWage);
 
+            double averageSalary = people.GetAverageSalary();
+            Console.WriteLine(averageSalary.ToString("C2") + "\n");
 
-            // #2 query: число ученных
-            int ScientistCount = (from x in b.ToArray()
-                                  where x is Teacher
-                                  where (x as Teacher).Title == Teacher.Rank.Scientist
-                                  select x).Count();
-            a.ScientistCount();
-            b.ScientistCount();
+            //-----------------------------------------------
 
+            List<Person> people1 = new List<Person>();
+            List<Person> people2 = new List<Person>();
+            people1.ToFill(otherSize, random);
+            people2.ToFill(otherSize, random);
+            Person a = new Person("IntersectOne", 100);
+            Person b = new Person("IntersectTwo", 100);
 
-            // #3 query: средний возраст работников
-            int averageAge = (int)a.ToArray().Where(x => x is Employee).Average(x => x.Age);
+            people1.Add(a);
+            people1.Add(b);
+            people2.Add(a);
+            people2.Add(b);
 
+            Print(people1.Объединение(people2));
+            Print(people1.Пересечение(people2));
+            Print(people1.Разность(people2));
+        }
 
-            // #4 query: 4 первых имени содержащих "А"
-            string[] names = b.ToArray()
-                              .Where(x => x.Name.Contains('a') || x.Name.Contains('A'))
-                              .Select(x => x.Name)
-                              .Take(5)
-                              .OrderBy(x => x.Length)
-                              .ToArray();
+        /// <summary>
+        /// Print the specified list.
+        /// </summary>
+        /// <returns>The print.</returns>
+        /// <param name="list">List.</param>
+        public static void Print(List<Student> list)
+        {
+            if (list.Count == 0) Console.WriteLine("List is empty \n");
 
+            else {
+                int n = 0;
+                foreach (Student i in list)
+                    Console.WriteLine(++n + ") " + i);
 
-            // #5 query: самая маленькая зарплата
-            float minWage = a.ToArray().Where(x => x is Employee).Min(x => (x as Employee).Wage);
-            a.MinSalary();
-            b.MinSalary();
+                Console.WriteLine();
+            }
+        }
+    
+        /// <summary>
+        /// Print the specified list.
+        /// </summary>
+        /// <returns>The print.</returns>
+        /// <param name="list">List.</param>
+        public static void Print(List<Person> list)
+        {
+            if (list.Count == 0) Console.WriteLine("List is empty \n");
 
+            else {
+                int n = 0;
+                foreach (Person i in list)
+                    Console.WriteLine(++n + ") " + i);
 
-            // #6 объединение двух последовательностей
-            //a.ToList().Concat(b.ToList());
-            //Console.WriteLine(a.Description());
-
-
-            // #7 возвращение общих элементов из двух списков
-            //List<Person> c = new List<Person>();
-            //Person person1 = Student.Generate();
-            //Person person2 = Teacher.Generate();
-            //Person person3 = Employee.Generate();
-            //a.Add(person1);
-            //a.Add(person2);
-            //a.Add(person3);
-            //b.Add(person1);
-            //b.Add(person2);
-            //b.Add(person3);
-            //c = a.ToArray().Intersect(b.ToArray()).ToList();
+                Console.WriteLine();
+            }
         }
     }
 
-    static class SequenceExtansion
+    static class ListExtension 
     {
-        static readonly Random R = new Random();
-
         /// <summary>
-        /// Filling the specified sequence and length.
+        /// Creates the list.
         /// </summary>
-        /// <returns>The filling.</returns>
-        /// <param name="sequence">Sequence.</param>
-        /// <param name="length">Length.</param>
-        public static void Filling(this Sequence<Person> sequence, int length)
+        /// <returns>The list.</returns>
+        /// <param name="count">Count.</param>
+        /// <param name="random">Random value.</param>
+        public static List<Person> ToFill(this List<Person> people, int count, Random random)
         {
-            for (int i = 0; i < length; i++)
-                switch (R.Next() % 3) {
-                case 0: sequence.Add(Student.Generate()); break;
-                case 1: sequence.Add(Employee.Generate()); break;
-                case 2: sequence.Add(Employee.Generate()); break;
+            for (int i = 0; i < count; i++)
+                switch (random.Next() % 4) {
+                case 0: people.Add(Person.Generate()); break;
+                case 1: people.Add(Student.Generate()); break;
+                case 2: people.Add(Employee.Generate()); break;
+                case 3: people.Add(Teacher.Generate()); break;
                 }
-        }
 
-        /// <summary>
-        /// Describe the specified sequence.
-        /// </summary>
-        /// <returns>The description.</returns>
-        /// <param name="sequence">Sequence.</param>
-        public static string Description(this Sequence<Person> sequence)
-        {
-            string description = string.Empty;
-
-            foreach (Person i in sequence)
-                description += i + "\n";
-
-            return description;
-        }
-
-        /// <summary>
-        /// Students the filter.
-        /// </summary>
-        /// <returns>The filter.</returns>
-        /// <param name="sequence">Sequence.</param>
-        public static Sequence<string> StudentFilter(this Sequence<Person> sequence)
-        {
-            string[] students = sequence.ToArray()
-                                        .Where(x => x is Student)
-                                        .Where(x => (x as Student).Course == 1 && (x as Student).Age <= 18)
-                                        .Select(x => x.Name).ToArray();
-
-            Sequence<string> names = new Sequence<string>();
-
-            for (int i = 0; i < students.Length; i++)
-                names.Add(students[i]);
-
-            return names;
+            return people;
         }
     
         /// <summary>
-        /// Nameses the sort.
+        /// Gets all students.
         /// </summary>
-        /// <returns>The sort.</returns>
-        /// <param name="sequence">Sequence.</param>
-        /// <param name="count">Count.</param>
-        public static Sequence<string> NamesSort(this Sequence<Person> sequence, int count)
+        /// <returns>The all students.</returns>
+        /// <param name="people">People.</param>
+        public static List<Student> GetAllStudents(this List<Person> people)
         {
-            string[] names = sequence.ToArray()
-                              .Where(x => x.Name.Contains('a') || x.Name.Contains('A'))
-                              .Select(x => x.Name)
-                              .Take(count)
-                              .OrderBy(x => x.Length)
-                              .ToArray();
+            //return people.OfType<Student>().ToList();
 
-            Sequence<string> names1 = new Sequence<string>();
-
-            for (int i = 0; i < names.Length; i++)
-                names1.Add(names[i]);
-
-            return names1;
+            return (from student in people where student is Student select student as Student).ToList(); 
         }
     
         /// <summary>
-        /// Scientists the count.
+        /// Gets the employees with wage bigger than ten TH ousand.
         /// </summary>
-        /// <returns>The count.</returns>
-        /// <param name="sequence">Sequence.</param>
-        public static int ScientistCount(this Sequence<Person> sequence)
+        /// <returns>The employees with wage bigger than ten TH ousand.</returns>
+        /// <param name="people">People.</param>
+        public static int GetGoodWage(this List<Person> people)
         {
-            return (from x in sequence.ToArray()
-                    where x is Teacher
-                    where (x as Teacher).Title == Teacher.Rank.Scientist
-                    select x).Count();
+            //return people.OfType<Employee>().Count(x => x.Wage >= 10_000);
+
+            return (from e in people where e is Employee && (e as Employee).Wage >= 50_000 select e).Count();
         }
     
         /// <summary>
-        /// Firsts the names which contains a.
+        /// Gets the average salary.
         /// </summary>
-        /// <returns>The names which contains a.</returns>
-        /// <param name="sequence">Sequence.</param>
-        /// <param name="count">Count.</param>
-        public static string[] FirstNamesWhichContainsA(this Sequence<Person> sequence, int count)
+        /// <returns>The average salary.</returns>
+        /// <param name="people">People.</param>
+        public static int GetAverageSalary(this List<Person> people)
         {
-            return sequence.ToArray()
-                           .Where(x => x.Name.Contains('a') || x.Name.Contains('A'))
-                           .Select(x => x.Name)
-                           .Take(count)
-                           .OrderBy(x => x.Length)
-                           .ToArray();
+            //return people.Where(x => x is Employee).Average(x => (x as Employee).Wage);
+
+            return (int)(from e in people where e is Employee select e).Average(x => (x as Employee).Wage);
         }
     
         /// <summary>
-        /// Minimums the salary.
+        /// Объединение the specified people and other.
         /// </summary>
-        /// <returns>The salary.</returns>
-        /// <param name="sequence">Sequence.</param>
-        public static float MinSalary(this Sequence<Person> sequence)
+        /// <returns>The объединение.</returns>
+        /// <param name="people">People.</param>
+        /// <param name="other">Other.</param>
+        public static List<Person> Объединение(this List<Person> people, List<Person> other)
         {
-            return sequence.ToArray().Where(x => x is Employee).Min(x => (x as Employee).Wage);
+            return people.Concat(other).ToList();
+        }
+    
+        /// <summary>
+        /// Пересечение the specified people and other.
+        /// </summary>
+        /// <returns>The пересечение.</returns>
+        /// <param name="people">People.</param>
+        /// <param name="other">Other.</param>
+        public static List<Person> Пересечение(this List<Person> people, List<Person> other)
+        {
+            return people.Intersect(other).ToList();
+        }
+    
+        /// <summary>
+        /// Разность the specified people and other.
+        /// </summary>
+        /// <returns>The разность.</returns>
+        /// <param name="people">People.</param>
+        /// <param name="other">Other.</param>
+        public static List<Person> Разность(this List<Person> people, List<Person> other)
+        {
+            return people.Except(other).ToList();
         }
     }
 }
